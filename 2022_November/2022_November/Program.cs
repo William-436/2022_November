@@ -36,7 +36,9 @@ if (helloHari.Text == "Hello hari!")
 else
 {
     Console.WriteLine("Login failed, test failed.");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+//    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 
 // create a new Time record in the Time and Material module
@@ -113,7 +115,9 @@ if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last
 else
 {
     Console.WriteLine("Time record wasn't created successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+    //    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 
 // edit my new Time record and verify the edited value
@@ -153,7 +157,9 @@ if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last
 else
 {
     Console.WriteLine("Time record wasn't edited successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+    //    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 
 // delete my edited Time record and verify it was deleted by not finding it in the last row
@@ -167,13 +173,15 @@ driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/
 Thread.Sleep(500);
 
 // click OK button in pop-up confirmation window - item is deleted and user remains on last page
-///////////////Accept();
+driver.SwitchTo().Alert().Accept();
 Thread.Sleep(3000);
 
 if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited time code")
 {
     Console.WriteLine("Edited Time record wasn't deleted successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+    //    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 else
 {
@@ -243,7 +251,9 @@ if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last
 else
 {
     Console.WriteLine("Material record wasn't created successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+    //    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 
 // edit my Material record and verify the edited value
@@ -274,7 +284,9 @@ if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last
 else
 {
     Console.WriteLine("Material record wasn't edited successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+    //    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 
 // delete my edited Material record and verify it was deleted by not finding it in the last row
@@ -286,13 +298,15 @@ driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/
 Thread.Sleep(500);
 
 // click OK button in pop-up confirmation window - item is deleted and user remains on last page
-///////////////Accept();
+driver.SwitchTo().Alert().Accept();
 Thread.Sleep(3000);
 
 if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited mtl code")
 {
     Console.WriteLine("Edited Material record wasn't deleted successfully");
-    Console.WriteLine("--program continues to run because I do not know how to stop it");
+    driver.Quit();
+    Environment.Exit(0);
+//    Console.WriteLine("--program continues to run because I do not know how to stop it");
 }
 else
 {
