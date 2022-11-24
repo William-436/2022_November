@@ -18,7 +18,8 @@ namespace _2022_November.Pages
             //IWebElement tandmElement = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
             //tandmElement.Click();
             driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a")).Click();
-
+            // wait up to 3 seconds for TM page to load
+            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 3);
         }
     }
 }

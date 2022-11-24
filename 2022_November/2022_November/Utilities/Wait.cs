@@ -45,5 +45,12 @@ namespace _2022_November.Utilities
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector(locatorValue)));
             }
         }
+
+        public static void WaitForAlertBoxToBePresent(IWebDriver driver, int seconds)
+        {
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
+
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.AlertIsPresent());
+        }
     }
 }
