@@ -24,24 +24,26 @@ namespace _2022_November.Tests
             // check if user has logged in successfully by capturing text in top right-hand cornerof screen
             IWebElement helloHari = driver.FindElement(By.XPath("//*[@id=\"logoutForm\"]/ul/li/a"));
 
-            if (helloHari.Text == "Hello hari!")
-            {
-                Console.WriteLine("Logged in successfully, test passed.");
-            }
-            else
-            {
-                Console.WriteLine("Login failed, test failed.");
-                driver.Quit();
-                Environment.Exit(0);
-                //  Console.WriteLine("--program continues to run because I do not know how to stop it");
-            }
+            //if (helloHari.Text == "Hello hari!")
+            //{
+            //Console.WriteLine("Logged in successfully, test passed.");
+            //Assert.Pass("Logged in successfully, test passed.");
+            //}
+            //else
+            //{
+            //Console.WriteLine("Login failed, test failed.");
+            //Assert.Fail("Login failed, test failed.");
+            //    driver.Quit();
+            //    Environment.Exit(0);
+            //}
+            Assert.That(helloHari.Text == "Hello hari!", "Login failed, test failed");
 
             // Home page object initialization and definition
             HomePage homePageObj = new HomePage();
             homePageObj.GoToTMPage(driver);
         }
 
-        [Test]
+        [Test, Order(1)]
         public void CreateTime_Test()
         {
             // TM page object initialization and definition
@@ -51,7 +53,7 @@ namespace _2022_November.Tests
             tmPageObj.CreateTime(driver);
         }
 
-        [Test]
+        [Test, Order(2)]
         public void EditTime_Test()
         {
             // TM page object initialization and definition
@@ -61,7 +63,7 @@ namespace _2022_November.Tests
             tmPageObj.EditTime(driver);
         }
 
-        [Test]
+        [Test, Order(3)]
         public void DeleteTime_Test()
         {
             // TM page object initialization and definition
@@ -72,7 +74,7 @@ namespace _2022_November.Tests
             tmPageObj.DeleteTime(driver);
         }
 
-        [Test]
+        [Test, Order(4)]
         public void CreateMaterial_Test()
         {
             // TM page object initialization and definition
@@ -82,7 +84,7 @@ namespace _2022_November.Tests
             tmPageObj.CreateMaterial(driver);
         }
 
-        [Test]
+        [Test, Order(5)]
         public void EditMaterial_Test()
         {
             // TM page object initialization and definition
@@ -92,7 +94,7 @@ namespace _2022_November.Tests
             tmPageObj.EditMaterial(driver);
         }
 
-        [Test]
+        [Test, Order(6)]
         public void DeleteMaterial_Test()
         {
             // TM page object initialization and definition
@@ -106,6 +108,7 @@ namespace _2022_November.Tests
         [TearDown]
         public void CloseTestRun()
         {
+            //Thread.Sleep(3000);
             Console.WriteLine("**Exiting/Ending Turnup portal script");
             driver.Quit();
         }

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace _2022_November.Pages
@@ -13,10 +14,20 @@ namespace _2022_November.Pages
             driver.Manage().Window.Maximize();
             // launch Turnup portal
             driver.Navigate().GoToUrl("http://horse.industryconnect.io/Account/Login?ReturnUrl=%2f");
+            Thread.Sleep(1500);
+            //driver.Navigate().GoToUrl("https://google.com.au");
 
-            // find Username textbox and enter valid username
-            IWebElement usernameTextbox = driver.FindElement(By.Id("UserName"));
-            usernameTextbox.SendKeys("hari");
+            try
+            {
+                // find Username textbox and enter valid username
+                IWebElement usernameTextbox = driver.FindElement(By.Id("UserName"));
+                usernameTextbox.SendKeys("hari");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Turnup portal page did not launch", ex.Message);
+                //Console.WriteLine("Turnup portal page did not launch");
+            }
 
             // find Password textbox and enter valid password
             IWebElement passwordTextbox = driver.FindElement(By.Id("Password"));

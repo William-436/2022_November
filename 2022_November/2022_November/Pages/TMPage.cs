@@ -1,4 +1,5 @@
 ﻿using _2022_November.Utilities;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 
@@ -12,7 +13,7 @@ namespace _2022_November.Pages
             Console.WriteLine("Create a new Time record in the Time and Materials module");
             // find and click on Create New button
             //Thread.Sleep(1500);
-            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"container\"]/p/a", 2);
+            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"container\"]/p/a", 3);
             //IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
             //createNewButton.Click();
             driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a")).Click();
@@ -54,27 +55,43 @@ namespace _2022_November.Pages
             //IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             //saveButton.Click();
             driver.FindElement(By.Id("SaveButton")).Click();
-            //Thread.Sleep(2000);
-            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 2);
+            Thread.Sleep(2500);
+            //Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 2);
 
             // check if new time record has been created successfully
             // find and click on the Go to the last page button
             //IWebElement lastpageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             //lastpageButton.Click();
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
+            Thread.Sleep(2000);
 
             // replace digit in tr[] with last() to get last row in table
-            //IWebElement lastrowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            // Example 1 & 3
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
 
-            //if (lastrowCode.Text == "my time code")
-            if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my time code")
-            {
-                Console.WriteLine("Time record created successfully");
-            }
-            else
-            {
-                Console.WriteLine("Time record wasn't created successfully");
-            }
+            //Example 3 - necessary for writing short statement in Example 3 below
+            //IWebElement newTimeCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+
+            // Example 1
+            //if (lastRowCode.Text == "my time code")
+            // UNABLE to get Example 2 or 3 to work due to Console.Writeline in TearDown being written before Assert Pass or Fail msg
+            // Example 2
+            //if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my time code")
+            //{
+                //Example 1
+                //Console.WriteLine("Time record created successfully");
+                // Example 2
+                //Assert.Pass("Time record created successfully - using Assert");
+            //}
+            //else
+            //{
+                //Example 1
+                //Console.WriteLine("Time record wasn't created successfully");
+                // Example 2
+                //Assert.Fail("Time record wasn't created successfully - using Assert");
+            //}
+            //Example 3
+            Assert.That(lastRowCode.Text == "my time code", "Actual time code and expected time code do not match");
         }
 
         public void CreateMaterial(IWebDriver driver)
@@ -84,7 +101,7 @@ namespace _2022_November.Pages
 
             // Find and click on Create New button
             //Thread.Sleep(1500);
-            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"container\"]/p/a", 2);
+            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"container\"]/p/a", 3);
             //IWebElement createNewButton2 = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
             //createNewButton2.Click();
             //createNewButton.Click();
@@ -138,15 +155,20 @@ namespace _2022_November.Pages
             // replace digit in [] with last() to get last row in table
             //IWebElement lastrowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
 
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+
             //if (lastrowCode.Text == "my material code")
-            if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my material code")
-            {
-                Console.WriteLine("Material record created successfully");
-            }
-            else
-            {
-                Console.WriteLine("Material record wasn't created successfully");
-            }
+            //if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my material code")
+            //{
+            //    //Console.WriteLine("Material record created successfully");
+            //    Assert.Pass("Material record created successfully");
+            //}
+            //else
+            //{
+            //    //Console.WriteLine("Material record wasn't created successfully");
+            //    Assert.Fail("Material record wasn't created successfully");
+            //}
+            Assert.That(lastRowCode.Text == "my material code", "Actual material code and expected material code do not match");
         }
         public void EditTime(IWebDriver driver)
         {
@@ -214,6 +236,10 @@ namespace _2022_November.Pages
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]")).Click();
             Thread.Sleep(2000);
 
+            // verify code in last row is the correct record to edit
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            Assert.That(lastRowCode.Text == "my material code", "Edited aborted because material code in last row does not match expected material code");
+
             // wait for Edit button to be clickable
             //Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]", 3);
 
@@ -257,6 +283,18 @@ namespace _2022_November.Pages
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
             Thread.Sleep(2000);
 
+            // verify code in last row is the correct record to delete
+            //if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited time code")
+            //{
+            //    Console.WriteLine("Time record was edited successfully");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Time record wasn't edited successfully");
+            //}
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            Assert.That(lastRowCode.Text == "my edited time code", "Delete aborted because time code in last row does not match expected time code");
+
             // find and click Delete button in last row by replacing digit in tr[] with last()
             //IWebElement lastdeleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
             //lastdeleteButton.Click();
@@ -290,6 +328,10 @@ namespace _2022_November.Pages
             //lastpageButton.Click();
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
             Thread.Sleep(2000);
+
+            // verify code in last row is the correct record to delete
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            Assert.That(lastRowCode.Text == "my edited mtl code", "Delete aborted because material code in last row does not match expected material code");
 
             // find and click Delete button in last row by replacing digit in tr[] with last()
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]")).Click();
