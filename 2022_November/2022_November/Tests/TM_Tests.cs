@@ -1,51 +1,22 @@
-﻿using _2022_November.Pages;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
-using NUnit.Framework;
-using _2022_November.Utilities;
+﻿//using _2022_November.Pages;
+//using OpenQA.Selenium.Chrome;
+//using OpenQA.Selenium;
+//using NUnit.Framework;
+//using _2022_November.Utilities;
 
 namespace _2022_November.Tests
 {
     [TestFixture]
+    [Parallelizable]
     public class TM_Tests : CommonDriver
     {
-        [SetUp]
-        public void LoginSteps()
+        [Test, Order(1), Description("Check if user can create a time record with valid data")]
+        public void CreateTime_Test()
         {
-            Console.WriteLine("**Starting Turnup portal script");
-
-            // open Chrome browser because of using OpenQA.Selenium.Chrome; statement at top of code
-            driver = new ChromeDriver();
-
-            // login page object initialization and definition
-            LoginPage loginPageObj = new LoginPage();
-            loginPageObj.LoginActions(driver);
-
-            // check if user has logged in successfully by capturing text in top right-hand cornerof screen
-            IWebElement helloHari = driver.FindElement(By.XPath("//*[@id=\"logoutForm\"]/ul/li/a"));
-
-            //if (helloHari.Text == "Hello hari!")
-            //{
-            //Console.WriteLine("Logged in successfully, test passed.");
-            //Assert.Pass("Logged in successfully, test passed.");
-            //}
-            //else
-            //{
-            //Console.WriteLine("Login failed, test failed.");
-            //Assert.Fail("Login failed, test failed.");
-            //    driver.Quit();
-            //    Environment.Exit(0);
-            //}
-            Assert.That(helloHari.Text == "Hello hari!", "Login failed, test failed");
-
             // Home page object initialization and definition
             HomePage homePageObj = new HomePage();
             homePageObj.GoToTMPage(driver);
-        }
 
-        [Test, Order(1)]
-        public void CreateTime_Test()
-        {
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
@@ -53,9 +24,13 @@ namespace _2022_November.Tests
             tmPageObj.CreateTime(driver);
         }
 
-        [Test, Order(2)]
+        [Test, Order(2), Description("Check if user can edit an existing time record successfully")]
         public void EditTime_Test()
         {
+            // Home page object initialization and definition
+            HomePage homePageObj = new HomePage();
+            homePageObj.GoToTMPage(driver);
+
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
@@ -63,20 +38,27 @@ namespace _2022_November.Tests
             tmPageObj.EditTime(driver);
         }
 
-        [Test, Order(3)]
+        [Test, Order(3), Description("Check if user can delete an existing & edited time record successfully")]
         public void DeleteTime_Test()
         {
+            // Home page object initialization and definition
+            HomePage homePageObj = new HomePage();
+            homePageObj.GoToTMPage(driver);
+
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
             // delete my edited Time record and verify it was deleted by not finding it in the last row
-            // because I don't know how to extract the total rec cnt from the lower-right corner
             tmPageObj.DeleteTime(driver);
         }
 
-        [Test, Order(4)]
+        [Test, Order(4), Description("Check if user can create a material record with valid data")]
         public void CreateMaterial_Test()
         {
+            // Home page object initialization and definition
+            HomePage homePageObj = new HomePage();
+            homePageObj.GoToTMPage(driver);
+
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
@@ -84,9 +66,13 @@ namespace _2022_November.Tests
             tmPageObj.CreateMaterial(driver);
         }
 
-        [Test, Order(5)]
+        [Test, Order(5), Description("Check if user can edit a material record successfully")]
         public void EditMaterial_Test()
         {
+            // Home page object initialization and definition
+            HomePage homePageObj = new HomePage();
+            homePageObj.GoToTMPage(driver);
+
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
@@ -94,23 +80,18 @@ namespace _2022_November.Tests
             tmPageObj.EditMaterial(driver);
         }
 
-        [Test, Order(6)]
+        [Test, Order(6), Description("Check if user can delete an existing & edited material record successfully")]
         public void DeleteMaterial_Test()
         {
+            // Home page object initialization and definition
+            HomePage homePageObj = new HomePage();
+            homePageObj.GoToTMPage(driver);
+
             // TM page object initialization and definition
             TMPage tmPageObj = new TMPage();
 
             // delete my edited Material record and verify it was deleted by not finding it in the last row
-            // because I don't know how to extract the total rec cnt from the lower-right corner
             tmPageObj.DeleteMaterial(driver);
-        }
-
-        [TearDown]
-        public void CloseTestRun()
-        {
-            //Thread.Sleep(3000);
-            Console.WriteLine("**Exiting/Ending Turnup portal script");
-            driver.Quit();
         }
     }
 }

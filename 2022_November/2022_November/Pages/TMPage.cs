@@ -1,11 +1,11 @@
-﻿using _2022_November.Utilities;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿//using _2022_November.Utilities;
+//using NUnit.Framework;
+//using OpenQA.Selenium;
 
 
 namespace _2022_November.Pages
 {
-    public class TMPage
+    public class TMPage : CommonDriver
     {
         public void CreateTime(IWebDriver driver)
         {
@@ -144,13 +144,14 @@ namespace _2022_November.Pages
             //IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             //saveButton.Click();
             driver.FindElement(By.Id("SaveButton")).Click();
-            //Thread.Sleep(2000);
-            Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 2);
+            Thread.Sleep(3000);
+            //Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 2);
 
             // check if new material record has been created successfully by 1st click on last page button
             //IWebElement lastpageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             //lastpageButton.Click();
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
+            Thread.Sleep(2000);
 
             // replace digit in [] with last() to get last row in table
             //IWebElement lastrowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
@@ -180,6 +181,10 @@ namespace _2022_November.Pages
             //lastpageButton.Click();
             driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
             Thread.Sleep(2000);
+
+            // verify code in last row is the correct record to edit
+            IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            Assert.That(lastRowCode.Text == "my time code", "Edit aborted because time code in last row does not match expected time code");
 
             // find edit button in last row
             // replace digit in tr[] with last() to get last row in table
@@ -238,7 +243,7 @@ namespace _2022_November.Pages
 
             // verify code in last row is the correct record to edit
             IWebElement lastRowCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            Assert.That(lastRowCode.Text == "my material code", "Edited aborted because material code in last row does not match expected material code");
+            Assert.That(lastRowCode.Text == "my material code", "Edit aborted because material code in last row does not match expected material code");
 
             // wait for Edit button to be clickable
             //Wait.WaitForElementToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]", 3);
@@ -264,6 +269,7 @@ namespace _2022_November.Pages
             Thread.Sleep(2000);
 
             // replace digit in tr[] with last() to get last row in table
+            
             if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited mtl code")
             {
                 Console.WriteLine("Material record was edited successfully");
@@ -308,6 +314,12 @@ namespace _2022_November.Pages
             Thread.Sleep(3000);
             //Wait.WaitForElementToExist(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 3);
 
+            // fails to find the element because deleted record was last record on the last page and the program leaves the user on
+            // the last page with no rows of records to find so clicking Go to the first page button, then Go to the last page button
+            driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[1]/span")).Click();
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
+            Thread.Sleep(1500);
             if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited time code")
             {
                 Console.WriteLine("Edited Time record wasn't deleted successfully");
@@ -344,8 +356,15 @@ namespace _2022_November.Pages
             Thread.Sleep(3000);
             //Wait.WaitForElementToExist(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 3);
 
+            // fails to find the element because deleted record was last record on the last page and the program leaves the user on
+            // the last page with no rows of records to find so clicking Go to the first page button, then Go to the last page button
+            driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[1]/span")).Click();
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span")).Click();
+            Thread.Sleep(1500);
+            //if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited mtl code")
             if (driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]")).Text == "my edited mtl code")
-            {
+                {
                 Console.WriteLine("Edited Material record wasn't deleted successfully");
             }
             else
