@@ -19,10 +19,10 @@ namespace _2022_November.Utilities
         [OneTimeSetUp]
         public void LoginSteps()
         {
-            Console.WriteLine("**Starting Turnup portal script");
-
             // open Chrome browser because of using OpenQA.Selenium.Chrome; statement at top of code
             driver = new ChromeDriver();
+
+            Console.WriteLine("**Starting Turnup portal script");
 
             // login page object initialization and definition
             LoginPage loginPageObj = new LoginPage();

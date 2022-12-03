@@ -35,7 +35,7 @@ namespace _2022_November.Tests
             TMPage tmPageObj = new TMPage();
 
             // edit my new Time record and verify the edited value
-            tmPageObj.EditTime(driver);
+            //tmPageObj.EditTime(driver);
         }
 
         [Test, Order(3), Description("Check if user can delete an existing & edited time record successfully")]
@@ -49,7 +49,7 @@ namespace _2022_November.Tests
             TMPage tmPageObj = new TMPage();
 
             // delete my edited Time record and verify it was deleted by not finding it in the last row
-            tmPageObj.DeleteTime(driver);
+            //tmPageObj.DeleteTime(driver);
         }
 
         [Test, Order(4), Description("Check if user can create a material record with valid data")]
